@@ -60,6 +60,9 @@ spec:
     kind: InfrastructureConfig
     floatingPoolName: MY-FLOATING-POOL
     # floatingPoolSubnetName: my-floating-pool-subnet-name
+    # dnsServers:
+    # - 1.1.1.1
+    # - 8.8.8.8
     networks:
     # router:
     #   id: 1234

@@ -11,6 +11,8 @@ You have to map every version that you specify in `.spec.machineImages[].version
 
 It also contains optional default values for DNS servers that shall be used for shoots.
 In the `dnsServers[]` list you can specify IP addresses that are used as DNS configuration for created shoot subnets.
+Shoots can override these defaults via the `dnsServers[]` field in the `InfrastructureConfig` provider configuration.
+If set, the values from the infrastructure config take precedence over the cloud profile defaults.
 
 Also, you have to specify the keystone URL in the `keystoneURL` field to your environment.
 

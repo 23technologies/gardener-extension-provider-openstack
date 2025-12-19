@@ -284,13 +284,17 @@ func (fctx *FlowContext) ensureSubnet(ctx context.Context) error {
 		return fmt.Errorf("missing cluster network ID")
 	}
 	networkID := ptr.Deref(fctx.state.Get(IdentifierNetwork), "")
+	dnsServers := fctx.cloudProfileConfig.DNSServers
+	if len(fctx.config.DNSServers) > 0 {
+		dnsServers = fctx.config.DNSServers
+	}
 	// Backwards compatibility - remove this code in a future version.
 	desired := &subnets.Subnet{
 		Name:           fctx.defaultSubnetName(),
 		NetworkID:      networkID,
 		CIDR:           fctx.workersCIDR(),
 		IPVersion:      4,
-		DNSNameservers: fctx.cloudProfileConfig.DNSServers,
+		DNSNameservers: dnsServers,
 	}
 	current, err := fctx.findExistingSubnet(ctx)
 	if err != nil {

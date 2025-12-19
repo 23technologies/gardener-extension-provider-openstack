@@ -5,6 +5,7 @@
 package validation
 
 import (
+	"net"
 	"reflect"
 	"sort"
 
@@ -65,6 +66,12 @@ func ValidateInfrastructureConfig(infra *api.InfrastructureConfig, nodesCIDR *st
 
 		if infra.Networks.Router != nil {
 			allErrs = append(allErrs, field.Forbidden(fldPath.Child("router"), "router cannot be set when a floating subnet name is provided"))
+		}
+	}
+
+	for i, ip := range infra.DNSServers {
+		if net.ParseIP(ip) == nil {
+			allErrs = append(allErrs, field.Invalid(fldPath.Child("dnsServers").Index(i), ip, "must provide a valid IP"))
 		}
 	}
 

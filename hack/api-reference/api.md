@@ -409,6 +409,18 @@ in the Floating IP Pool where the router should be attached to.</p>
 </tr>
 <tr>
 <td>
+<code>dnsServers</code></br>
+<em>
+[]string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>DNSServers is a list of IPs of DNS servers used while creating subnets.</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>networks</code></br>
 <em>
 <a href="#openstack.provider.extensions.gardener.cloud/v1alpha1.Networks">

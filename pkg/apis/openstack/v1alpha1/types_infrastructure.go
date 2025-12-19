@@ -20,6 +20,9 @@ type InfrastructureConfig struct {
 	// in the Floating IP Pool where the router should be attached to.
 	// +optional
 	FloatingPoolSubnetName *string `json:"floatingPoolSubnetName,omitempty"`
+	// DNSServers is a list of IPs of DNS servers used while creating subnets.
+	// +optional
+	DNSServers []string `json:"dnsServers,omitempty"`
 	// Networks is the OpenStack specific network configuration
 	Networks Networks `json:"networks"`
 }

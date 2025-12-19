@@ -296,6 +296,11 @@ func (in *InfrastructureConfig) DeepCopyInto(out *InfrastructureConfig) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.DNSServers != nil {
+		in, out := &in.DNSServers, &out.DNSServers
+		*out = make([]string, len(*in))
+		copy(*out, *in)
+	}
 	in.Networks.DeepCopyInto(&out.Networks)
 	return
 }

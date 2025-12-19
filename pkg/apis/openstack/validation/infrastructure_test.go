@@ -57,6 +57,17 @@ var _ = Describe("InfrastructureConfig validation", func() {
 			))
 		})
 
+		It("should forbid invalid dns servers", func() {
+			infrastructureConfig.DNSServers = []string{"not-a-valid-ip"}
+
+			errorList := ValidateInfrastructureConfig(infrastructureConfig, &nodes, nilPath)
+
+			Expect(errorList).To(ConsistOfFields(Fields{
+				"Type":  Equal(field.ErrorTypeInvalid),
+				"Field": Equal("dnsServers[0]"),
+			}))
+		})
+
 		It("should forbid empty floating pool name configuration", func() {
 			infrastructureConfig.FloatingPoolName = ""
 			errorList := ValidateInfrastructureConfig(infrastructureConfig, &nodes, nilPath)

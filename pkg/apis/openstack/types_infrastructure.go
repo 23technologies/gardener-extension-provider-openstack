@@ -18,6 +18,8 @@ type InfrastructureConfig struct {
 	// FloatingPoolSubnetName contains the fixed name of subnet or matching name pattern for subnet
 	// in the Floating IP Pool where the router should be attached to.
 	FloatingPoolSubnetName *string
+	// DNSServers is a list of IPs of DNS servers used while creating subnets.
+	DNSServers []string
 	// Networks is the OpenStack specific network configuration
 	Networks Networks
 }
