@@ -76,6 +76,20 @@ Constraints
 </tr>
 <tr>
 <td>
+<code>dnsServersPerRegion</code></br>
+<em>
+<a href="#openstack.provider.extensions.gardener.cloud/v1alpha1.DNSServersPerRegion">
+[]DNSServersPerRegion
+</a>
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>DNSServersPerRegion is a list of DNS servers per region used while creating subnets.</p>
+</td>
+</tr>
+<tr>
+<td>
 <code>dhcpDomain</code></br>
 <em>
 string
@@ -588,6 +602,48 @@ map[string]bool
 </td>
 <td>
 <p>LoadBalancerProviders contains constraints regarding allowed values of the &lsquo;loadBalancerProvider&rsquo; block in the control plane config.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="openstack.provider.extensions.gardener.cloud/v1alpha1.DNSServersPerRegion">DNSServersPerRegion
+</h3>
+<p>
+(<em>Appears on:</em>
+<a href="#openstack.provider.extensions.gardener.cloud/v1alpha1.CloudProfileConfig">CloudProfileConfig</a>)
+</p>
+<p>
+<p>DNSServersPerRegion contains region specific DNS servers for subnet creation.</p>
+</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<code>region</code></br>
+<em>
+string
+</em>
+</td>
+<td>
+<p>Region is the name of the region.</p>
+</td>
+</tr>
+<tr>
+<td>
+<code>dnsServers</code></br>
+<em>
+[]string
+</em>
+</td>
+<td>
+<em>(Optional)</em>
+<p>DNSServers is a list of IPs of DNS servers used while creating subnets.</p>
 </td>
 </tr>
 </tbody>

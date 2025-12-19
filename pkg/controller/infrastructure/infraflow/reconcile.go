@@ -290,7 +290,7 @@ func (fctx *FlowContext) ensureSubnet(ctx context.Context) error {
 		NetworkID:      networkID,
 		CIDR:           fctx.workersCIDR(),
 		IPVersion:      4,
-		DNSNameservers: fctx.cloudProfileConfig.DNSServers,
+		DNSNameservers: helper.FindDNSServers(fctx.cloudProfileConfig, fctx.infra.Spec.Region),
 	}
 	current, err := fctx.findExistingSubnet(ctx)
 	if err != nil {

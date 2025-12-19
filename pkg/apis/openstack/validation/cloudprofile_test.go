@@ -342,6 +342,56 @@ var _ = Describe("CloudProfileConfig validation", func() {
 			})
 		})
 
+		Context("dns servers per region validation", func() {
+			It("should forbid empty region names", func() {
+				cloudProfileConfig.DNSServersPerRegion = []api.DNSServersPerRegion{{
+					Region:     "",
+					DNSServers: []string{"1.2.3.4"},
+				}}
+
+				errorList := ValidateCloudProfileConfig(cloudProfileConfig, machineImages, fldPath)
+
+				Expect(errorList).To(ConsistOf(PointTo(MatchFields(IgnoreExtras, Fields{
+					"Type":  Equal(field.ErrorTypeRequired),
+					"Field": Equal("root.dnsServersPerRegion[0].region"),
+				}))))
+			})
+
+			It("should forbid duplicate regions", func() {
+				cloudProfileConfig.DNSServersPerRegion = []api.DNSServersPerRegion{
+					{
+						Region:     "r1",
+						DNSServers: []string{"1.2.3.4"},
+					},
+					{
+						Region:     "r1",
+						DNSServers: []string{"5.6.7.8"},
+					},
+				}
+
+				errorList := ValidateCloudProfileConfig(cloudProfileConfig, machineImages, fldPath)
+
+				Expect(errorList).To(ConsistOf(PointTo(MatchFields(IgnoreExtras, Fields{
+					"Type":  Equal(field.ErrorTypeDuplicate),
+					"Field": Equal("root.dnsServersPerRegion[1].region"),
+				}))))
+			})
+
+			It("should forbid invalid per-region dns server ips", func() {
+				cloudProfileConfig.DNSServersPerRegion = []api.DNSServersPerRegion{{
+					Region:     "r1",
+					DNSServers: []string{"not-a-valid-ip"},
+				}}
+
+				errorList := ValidateCloudProfileConfig(cloudProfileConfig, machineImages, fldPath)
+
+				Expect(errorList).To(ConsistOf(PointTo(MatchFields(IgnoreExtras, Fields{
+					"Type":  Equal(field.ErrorTypeInvalid),
+					"Field": Equal("root.dnsServersPerRegion[0].dnsServers[0]"),
+				}))))
+			})
+		})
+
 		Context("dhcp domain validation", func() {
 			It("should forbid not specifying a value when the key is present", func() {
 				cloudProfileConfig.DHCPDomain = ptr.To("")

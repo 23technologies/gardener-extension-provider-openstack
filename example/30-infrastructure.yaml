@@ -33,6 +33,10 @@ spec:
         keystoneURL: https://localhost
       # dnsServers:
       # - 1.1.1.1
+      # dnsServersPerRegion:
+      # - region: eu-de-1
+      #   dnsServers:
+      #   - 9.9.9.9
   seed:
     apiVersion: core.gardener.cloud/v1beta1
     kind: Seed

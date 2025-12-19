@@ -141,6 +141,24 @@ func ValidateCloudProfileConfig(cloudProfile *api.CloudProfileConfig, machineIma
 		}
 	}
 
+	dnsServersPerRegionPath := fldPath.Child("dnsServersPerRegion")
+	dnsRegionsFound := sets.NewString()
+	for i, dnsServersPerRegion := range cloudProfile.DNSServersPerRegion {
+		idxPath := dnsServersPerRegionPath.Index(i)
+		if len(dnsServersPerRegion.Region) == 0 {
+			allErrs = append(allErrs, field.Required(idxPath.Child("region"), "must provide a region"))
+		} else if dnsRegionsFound.Has(dnsServersPerRegion.Region) {
+			allErrs = append(allErrs, field.Duplicate(idxPath.Child("region"), dnsServersPerRegion.Region))
+		}
+		dnsRegionsFound.Insert(dnsServersPerRegion.Region)
+
+		for j, ip := range dnsServersPerRegion.DNSServers {
+			if net.ParseIP(ip) == nil {
+				allErrs = append(allErrs, field.Invalid(idxPath.Child("dnsServers").Index(j), ip, "must provide a valid IP"))
+			}
+		}
+	}
+
 	if cloudProfile.DHCPDomain != nil && len(*cloudProfile.DHCPDomain) == 0 {
 		allErrs = append(allErrs, field.Required(fldPath.Child("dhcpDomain"), "must provide a dhcp domain when the key is specified"))
 	}

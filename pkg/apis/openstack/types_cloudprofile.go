@@ -22,6 +22,8 @@ type CloudProfileConfig struct {
 	Constraints Constraints
 	// DNSServers is a list of IPs of DNS servers used while creating subnets.
 	DNSServers []string
+	// DNSServersPerRegion is a list of DNS servers per region used while creating subnets.
+	DNSServersPerRegion []DNSServersPerRegion
 	// DHCPDomain is the dhcp domain of the OpenStack system configured in nova.conf. Only meaningful for
 	// Kubernetes 1.10.1+. See https://github.com/kubernetes/kubernetes/pull/61890 for details.
 	DHCPDomain *string
@@ -55,6 +57,14 @@ type CloudProfileConfig struct {
 	// StorageClasses defines storageclasses for the shoot
 	// +optional
 	StorageClasses []StorageClassDefinition
+}
+
+// DNSServersPerRegion contains region specific DNS servers for subnet creation.
+type DNSServersPerRegion struct {
+	// Region is the name of the region.
+	Region string
+	// DNSServers is a list of IPs of DNS servers used while creating subnets.
+	DNSServers []string
 }
 
 // Constraints is an object containing constraints for the shoots.

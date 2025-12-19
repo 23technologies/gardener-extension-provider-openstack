@@ -11,6 +11,8 @@ You have to map every version that you specify in `.spec.machineImages[].version
 
 It also contains optional default values for DNS servers that shall be used for shoots.
 In the `dnsServers[]` list you can specify IP addresses that are used as DNS configuration for created shoot subnets.
+If you need different values per region, use `dnsServersPerRegion[]` to override DNS servers for a specific region. If no
+per-region entry exists, the global `dnsServers[]` list is used.
 
 Also, you have to specify the keystone URL in the `keystoneURL` field to your environment.
 
@@ -69,6 +71,11 @@ machineImages:
 # dnsServers:
 # - 10.10.10.11
 # - 10.10.10.12
+# dnsServersPerRegion:
+# - region: europe
+#   dnsServers:
+#   - 10.10.10.21
+#   - 10.10.10.22
 # requestTimeout: 60s
 # useSNAT: true
 # rescanBlockStorageOnResize: true

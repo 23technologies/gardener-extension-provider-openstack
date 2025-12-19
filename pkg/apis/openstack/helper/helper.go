@@ -127,6 +127,21 @@ func FindKeyStoneCACert(keyStoneURLs []api.KeyStoneURL, keystoneCABundle *string
 	return keystoneCABundle
 }
 
+// FindDNSServers returns region-specific DNS servers or falls back to the global list.
+func FindDNSServers(cloudProfileConfig *api.CloudProfileConfig, region string) []string {
+	if cloudProfileConfig == nil {
+		return nil
+	}
+
+	for _, regional := range cloudProfileConfig.DNSServersPerRegion {
+		if regional.Region == region {
+			return regional.DNSServers
+		}
+	}
+
+	return cloudProfileConfig.DNSServers
+}
+
 // FindFloatingPool receives a list of floating pools and tries to find the best
 // match for a given `floatingPoolNamePattern` considering constraints like
 // `region` and `domain`. If no matching floating pool was found then an error will be returned.
